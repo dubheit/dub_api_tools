@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_oauth2_root"
+              name="OAuth2 Provider"
+              parent="base.menu_custom"
+              groups="dub_oauth2_provider.group_oauth2_manager"
+              sequence="1010"/>
+
+    <!-- Clients Menu -->
+    <menuitem id="menu_oauth2_clients"
+              name="Clients"
+              parent="menu_oauth2_root"
+              action="action_oauth2_client"
+              sequence="10"/>
+
+    <!-- Tokens Menu -->
+    <menuitem id="menu_oauth2_tokens"
+              name="Access Tokens"
+              parent="menu_oauth2_root"
+              action="action_oauth2_access_token"
+              sequence="20"/>
+
+    <!-- Authorization Codes Menu (for debugging) -->
+    <menuitem id="menu_oauth2_codes"
+              name="Authorization Codes"
+              parent="menu_oauth2_root"
+              action="action_oauth2_authorization_code"
+              sequence="30"/>
+</odoo>
