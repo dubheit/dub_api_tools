@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Consent Page Template -->
+    <record id="consent_page" model="ir.ui.view">
+        <field name="name">OAuth2 Consent Page</field>
+        <field name="type">qweb</field>
+        <field name="key">dub_oauth2_provider.consent_page</field>
+        <field name="arch" type="xml">
+            <t t-name="dub_oauth2_provider.consent_page">
+                <html>
+                    <head>
+                        <title>Authorize Application</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                        <link rel="stylesheet" href="/web/static/lib/bootstrap/css/bootstrap.css"/>
+                        <style>
+                            body {
+                                background-color: #f8f9fa;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                min-height: 100vh;
+                                margin: 0;
+                                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                            }
+                            .consent-card {
+                                background: white;
+                                border-radius: 12px;
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                max-width: 420px;
+                                width: 100%;
+                                padding: 32px;
+                            }
+                            .app-icon {
+                                width: 64px;
+                                height: 64px;
+                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                border-radius: 12px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                margin: 0 auto 16px;
+                            }
+                            .app-icon svg {
+                                width: 32px;
+                                height: 32px;
+                                fill: white;
+                            }
+                            .scope-item {
+                                display: flex;
+                                align-items: center;
+                                padding: 12px;
+                                background: #f8f9fa;
+                                border-radius: 8px;
+                                margin-bottom: 8px;
+                            }
+                            .scope-icon {
+                                width: 24px;
+                                height: 24px;
+                                margin-right: 12px;
+                                color: #6c757d;
+                            }
+                            .btn-allow {
+                                background: #28a745;
+                                border-color: #28a745;
+                            }
+                            .btn-allow:hover {
+                                background: #218838;
+                                border-color: #1e7e34;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="consent-card">
+                            <div class="app-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                                </svg>
+                            </div>
+
+                            <h4 class="text-center mb-2">
+                                <t t-esc="client.name"/>
+                            </h4>
+                            <p class="text-center text-muted mb-4">
+                                wants to access your account
+                            </p>
+
+                            <t t-if="scope_list">
+                                <p class="text-muted small mb-2">This application will be able to:</p>
+                                <div class="mb-4">
+                                    <t t-foreach="scope_list" t-as="s">
+                                        <div class="scope-item">
+                                            <t t-if="s == 'openid'">
+                                                <svg class="scope-icon" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                                </svg>
+                                                <span>Verify your identity</span>
+                                            </t>
+                                            <t t-elif="s == 'profile'">
+                                                <svg class="scope-icon" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                                                </svg>
+                                                <span>Access your profile information</span>
+                                            </t>
+                                            <t t-elif="s == 'email'">
+                                                <svg class="scope-icon" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                                </svg>
+                                                <span>Access your email address</span>
+                                            </t>
+                                            <t t-else="">
+                                                <svg class="scope-icon" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                                                </svg>
+                                                <span><t t-esc="s"/></span>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+
+                            <form method="POST" action="/oauth2/authorize">
+                                <input type="hidden" name="response_type" t-att-value="response_type"/>
+                                <input type="hidden" name="client_id" t-att-value="client.client_id"/>
+                                <input type="hidden" name="redirect_uri" t-att-value="redirect_uri"/>
+                                <input type="hidden" name="scope" t-att-value="scope"/>
+                                <input type="hidden" name="state" t-att-value="state"/>
+                                <input type="hidden" name="code_challenge" t-att-value="code_challenge"/>
+                                <input type="hidden" name="code_challenge_method" t-att-value="code_challenge_method"/>
+
+                                <div class="d-grid gap-2">
+                                    <button type="submit" name="consent" value="allow" class="btn btn-allow btn-lg text-white">
+                                        Allow
+                                    </button>
+                                    <button type="submit" name="consent" value="deny" class="btn btn-outline-secondary">
+                                        Deny
+                                    </button>
+                                </div>
+                            </form>
+
+                            <p class="text-center text-muted small mt-4 mb-0">
+                                By clicking Allow, you authorize this application to access your information.
+                            </p>
+                        </div>
+                    </body>
+                </html>
+            </t>
+        </field>
+    </record>
+
+    <!-- OAuth2 Success Page Template -->
+    <record id="oauth2_success_page" model="ir.ui.view">
+        <field name="name">OAuth2 Success Page</field>
+        <field name="type">qweb</field>
+        <field name="key">dub_oauth2_provider.oauth2_success_page</field>
+        <field name="arch" type="xml">
+            <t t-name="dub_oauth2_provider.oauth2_success_page">
+                <html>
+                    <head>
+                        <title>Authorization Successful</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                        <!-- Use meta refresh instead of JavaScript to prevent XSS -->
+                        <meta http-equiv="refresh" t-attf-content="2;url=#{redirect_url}"/>
+                        <style>
+                            body {
+                                background-color: #f8f9fa;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                min-height: 100vh;
+                                margin: 0;
+                                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                            }
+                            .success-card {
+                                background: white;
+                                border-radius: 12px;
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                max-width: 420px;
+                                width: 100%;
+                                padding: 32px;
+                                text-align: center;
+                            }
+                            .success-icon {
+                                width: 80px;
+                                height: 80px;
+                                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                                border-radius: 50%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                margin: 0 auto 24px;
+                            }
+                            .success-icon svg {
+                                width: 40px;
+                                height: 40px;
+                                fill: white;
+                            }
+                            h2 { color: #28a745; margin-bottom: 16px; }
+                            p { color: #6c757d; margin-bottom: 8px; }
+                            .redirect-text { font-size: 14px; color: #adb5bd; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="success-card">
+                            <div class="success-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                </svg>
+                            </div>
+                            <h2>Authorization Successful!</h2>
+                            <p><strong><t t-esc="client_name"/></strong> has been authorized.</p>
+                            <p>You can now close this window and return to the application.</p>
+                            <p class="redirect-text">Redirecting automatically...</p>
+                        </div>
+                    </body>
+                </html>
+            </t>
+        </field>
+    </record>
+
+    <!-- Scheduled action to cleanup expired tokens -->
+    <record id="ir_cron_cleanup_oauth2_tokens" model="ir.cron">
+        <field name="name">OAuth2: Cleanup Expired Tokens</field>
+        <field name="model_id" ref="model_oauth2_access_token"/>
+        <field name="state">code</field>
+        <field name="code">model.cleanup_expired()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Scheduled action to cleanup expired authorization codes -->
+    <record id="ir_cron_cleanup_oauth2_codes" model="ir.cron">
+        <field name="name">OAuth2: Cleanup Expired Codes</field>
+        <field name="model_id" ref="model_oauth2_authorization_code"/>
+        <field name="state">code</field>
+        <field name="code">model.cleanup_expired()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

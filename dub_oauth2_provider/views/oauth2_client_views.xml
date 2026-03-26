@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- OAuth2 Client Form View -->
+    <record id="view_oauth2_client_form" model="ir.ui.view">
+        <field name="name">oauth2.client.form</field>
+        <field name="model">oauth2.client</field>
+        <field name="arch" type="xml">
+            <form string="OAuth2 Client">
+                <header>
+                    <button name="regenerate_secret" type="object" string="Regenerate Secret"
+                            class="btn-secondary" invisible="client_type != 'confidential'"
+                            confirm="This will invalidate the current secret. Continue?"/>
+                    <button name="clear_displayed_secret" type="object" string="Hide Secret"
+                            class="btn-secondary" invisible="not client_secret"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_oauth2_access_token)d" type="action"
+                                class="oe_stat_button" icon="fa-key">
+                            <field name="access_token_ids" widget="statinfo" string="Tokens"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Application Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Client Credentials">
+                            <field name="client_id"/>
+                            <label for="client_secret" invisible="not client_secret"/>
+                            <div class="o_row" invisible="not client_secret">
+                                <field name="client_secret" password="True" class="oe_inline"/>
+                                <button name="action_show_secret" type="object" string="Show" class="btn-secondary" icon="fa-eye"/>
+                            </div>
+                            <field name="client_type"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Settings">
+                            <field name="require_pkce"/>
+                            <field name="allowed_scopes"/>
+                            <field name="access_token_expiry"/>
+                            <field name="refresh_token_expiry"/>
+                            <field name="service_account_user_id"
+                                   help="For Client Credentials flow (machine-to-machine)"/>
+                        </group>
+                    </group>
+                    <group string="Redirect URIs">
+                        <field name="redirect_uris" nolabel="1" placeholder="https://example.com/callback&#10;https://example.com/oauth/callback"/>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1" placeholder="Optional description of this application"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- OAuth2 Client List View -->
+    <record id="view_oauth2_client_tree" model="ir.ui.view">
+        <field name="name">oauth2.client.list</field>
+        <field name="model">oauth2.client</field>
+        <field name="arch" type="xml">
+            <list string="OAuth2 Clients">
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="client_type"/>
+                <field name="service_account_user_id" optional="show"/>
+                <field name="require_pkce"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- OAuth2 Client Search View -->
+    <record id="view_oauth2_client_search" model="ir.ui.view">
+        <field name="name">oauth2.client.search</field>
+        <field name="model">oauth2.client</field>
+        <field name="arch" type="xml">
+            <search string="OAuth2 Clients">
+                <field name="name"/>
+                <field name="client_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- OAuth2 Client Action -->
+    <record id="action_oauth2_client" model="ir.actions.act_window">
+        <field name="name">OAuth2 Clients</field>
+        <field name="res_model">oauth2.client</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first OAuth2 client application
+            </p>
+            <p>
+                OAuth2 clients allow external applications to authenticate
+                users via your Odoo instance.
+            </p>
+        </field>
+    </record>
+
+    <!-- Show Secret Wizard -->
+    <record id="view_oauth2_show_secret_wizard_form" model="ir.ui.view">
+        <field name="name">oauth2.show_secret.wizard.form</field>
+        <field name="model">oauth2.show_secret.wizard</field>
+        <field name="arch" type="xml">
+            <form string="New Client Secret">
+                <div class="alert alert-warning mb-4" role="alert">
+                    <i class="fa fa-exclamation-triangle me-2" title="Warning"/>
+                    <strong>Important:</strong> Copy this secret now! It will not be shown again.
+                </div>
+                <group>
+                    <field name="client_id" readonly="1"/>
+                    <field name="client_secret" widget="CopyClipboardChar"/>
+                </group>
+                <footer>
+                    <button string="Close" class="btn-primary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

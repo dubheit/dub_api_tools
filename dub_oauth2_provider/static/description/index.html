@@ -1,0 +1,188 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12" style="text-align: center;">
+            <h2 class="oe_slogan" style="color: #28a745;">
+                <i class="fa fa-key"></i> OAuth2 Provider
+            </h2>
+            <p class="oe_mt32" style="font-size: 18px; color: #555;">
+                Turn your Odoo instance into an OAuth2 Authorization Server.<br/>
+                Authenticate external applications securely.
+            </p>
+            <p style="background-color: #e8f5e9; padding: 10px 20px; display: inline-block; color: #2e7d32;">
+                <i class="fa fa-life-ring"></i>
+                <strong>Free Support</strong> -
+                <a href="mailto:support@dubhe.it" style="color: #28a745;">support@dubhe.it</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan">Key Features</h3>
+
+        <div class="oe_span6">
+            <p><i class="fa fa-check-circle" style="color: #28a745;"></i>
+            <strong>Authorization Code Flow</strong><br/>
+            Full OAuth2 Authorization Code grant type for server-side applications.</p>
+
+            <p><i class="fa fa-shield" style="color: #28a745;"></i>
+            <strong>PKCE Support (S256)</strong><br/>
+            Proof Key for Code Exchange for mobile apps and SPAs.</p>
+
+            <p><i class="fa fa-server" style="color: #28a745;"></i>
+            <strong>Client Credentials Flow</strong><br/>
+            Machine-to-machine authentication without user interaction.</p>
+        </div>
+
+        <div class="oe_span6">
+            <p><i class="fa fa-user-circle" style="color: #28a745;"></i>
+            <strong>Personal Credentials</strong><br/>
+            Users can create OAuth2 credentials from Preferences.</p>
+
+            <p><i class="fa fa-refresh" style="color: #28a745;"></i>
+            <strong>Refresh Token Rotation</strong><br/>
+            Automatic token refresh with configurable expiration.</p>
+
+            <p><i class="fa fa-clock-o" style="color: #28a745;"></i>
+            <strong>Configurable Expiration</strong><br/>
+            Set access and refresh token lifetimes per client.</p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan">OAuth2 Endpoints</h3>
+
+        <div class="oe_span12">
+            <table class="table table-bordered">
+                <tr style="background-color: #28a745; color: #fff;">
+                    <th style="padding: 10px;">Endpoint</th>
+                    <th style="padding: 10px;">Description</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;"><code>/oauth2/authorize</code></td>
+                    <td style="padding: 10px;">Authorization endpoint - redirects user to login and consent</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;"><code>/oauth2/token</code></td>
+                    <td style="padding: 10px;">Token endpoint - exchange code for access token</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;"><code>/oauth2/userinfo</code></td>
+                    <td style="padding: 10px;">UserInfo endpoint - get authenticated user information</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;"><code>/oauth2/revoke</code></td>
+                    <td style="padding: 10px;">Token revocation endpoint</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;"><code>/.well-known/oauth-authorization-server</code></td>
+                    <td style="padding: 10px;">Server metadata (RFC 8414)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;"><code>/.well-known/openid-configuration</code></td>
+                    <td style="padding: 10px;">OpenID Connect discovery</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan">Supported Scopes</h3>
+
+        <div class="oe_span4" style="text-align: center;">
+            <p style="font-size: 40px; color: #28a745;"><i class="fa fa-id-card"></i></p>
+            <h4>openid</h4>
+            <p style="color: #666;">Verify user identity</p>
+        </div>
+
+        <div class="oe_span4" style="text-align: center;">
+            <p style="font-size: 40px; color: #17a2b8;"><i class="fa fa-user"></i></p>
+            <h4>profile</h4>
+            <p style="color: #666;">Access user profile (name, username)</p>
+        </div>
+
+        <div class="oe_span4" style="text-align: center;">
+            <p style="font-size: 40px; color: #6c757d;"><i class="fa fa-envelope"></i></p>
+            <h4>email</h4>
+            <p style="color: #666;">Access user email address</p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan">Quick Setup</h3>
+
+        <div class="oe_span12">
+            <p><strong style="color: #28a745;">1.</strong>
+            Go to <strong>Settings &gt; Technical &gt; OAuth2 Provider &gt; Clients</strong></p>
+
+            <p><strong style="color: #28a745;">2.</strong>
+            Create a new OAuth2 Client with a name and redirect URI</p>
+
+            <p><strong style="color: #28a745;">3.</strong>
+            Copy the <strong>Client ID</strong> and <strong>Client Secret</strong></p>
+
+            <p><strong style="color: #28a745;">4.</strong>
+            Configure your external application with these credentials</p>
+
+            <p><strong style="color: #28a745;">5.</strong>
+            Users can now authenticate via <code>/oauth2/authorize</code></p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container" style="background-color: #fff3e0; padding: 20px;">
+    <div class="oe_row">
+        <div class="oe_span12" style="text-align: center;">
+            <h4 style="color: #e65100;">
+                <i class="fa fa-lightbulb-o"></i> Use Case: AI Assistant Integration
+            </h4>
+            <p style="color: #555;">
+                This module works with <strong>dub_mcp_server</strong> to enable AI assistants
+                (Claude, Cursor, Continue, etc.) to securely access your Odoo data.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan">Security Features</h3>
+
+        <div class="oe_span6">
+            <p><i class="fa fa-lock" style="color: #28a745;"></i> Hashed client secrets</p>
+            <p><i class="fa fa-shield" style="color: #28a745;"></i> PKCE S256 for public clients</p>
+            <p><i class="fa fa-random" style="color: #28a745;"></i> State parameter validation</p>
+            <p><i class="fa fa-bolt" style="color: #28a745;"></i> Timing-safe token validation</p>
+        </div>
+
+        <div class="oe_span6">
+            <p><i class="fa fa-refresh" style="color: #28a745;"></i> Atomic code exchange</p>
+            <p><i class="fa fa-trash" style="color: #28a745;"></i> Auto-cleanup of expired tokens</p>
+            <p><i class="fa fa-clock-o" style="color: #28a745;"></i> Configurable token expiration</p>
+            <p><i class="fa fa-ban" style="color: #28a745;"></i> Token revocation support</p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container" style="background-color: #e8f5e9; padding: 30px 20px; margin-top: 20px;">
+    <div class="oe_row">
+        <div class="oe_span12" style="text-align: center;">
+            <h3 style="color: #2e7d32; margin-bottom: 15px;">Need Help?</h3>
+            <p style="font-size: 16px; margin: 0;">
+                <a href="mailto:support@dubhe.it" style="color: #28a745; font-weight: bold;">
+                    <i class="fa fa-envelope"></i> support@dubhe.it
+                </a>
+                <span style="color: #aaa; margin: 0 15px;">|</span>
+                <i class="fa fa-globe" style="color: #28a745;"></i>
+                <strong style="color: #28a745;">www.dubhe.it</strong>
+            </p>
+        </div>
+    </div>
+</section>

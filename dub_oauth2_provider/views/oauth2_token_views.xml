@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- OAuth2 Access Token Form View -->
+    <record id="view_oauth2_access_token_form" model="ir.ui.view">
+        <field name="name">oauth2.access_token.form</field>
+        <field name="model">oauth2.access_token</field>
+        <field name="arch" type="xml">
+            <form string="Access Token" create="0" edit="0">
+                <header>
+                    <button name="revoke" type="object" string="Revoke Token"
+                            class="btn-danger" invisible="revoked"
+                            confirm="This will invalidate the token. Continue?"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Revoked" bg_color="text-bg-danger" invisible="not revoked"/>
+                    <group>
+                        <group string="Token Info">
+                            <field name="token_prefix"/>
+                            <field name="token_type"/>
+                            <field name="scope"/>
+                            <field name="revoked"/>
+                        </group>
+                        <group string="Ownership">
+                            <field name="client_id"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Expiration">
+                            <field name="expires_at"/>
+                            <field name="refresh_expires_at"/>
+                        </group>
+                        <group string="Audit">
+                            <field name="created_at"/>
+                            <field name="last_used_at"/>
+                            <field name="ip_address"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- OAuth2 Access Token List View -->
+    <record id="view_oauth2_access_token_tree" model="ir.ui.view">
+        <field name="name">oauth2.access_token.list</field>
+        <field name="model">oauth2.access_token</field>
+        <field name="arch" type="xml">
+            <list string="Access Tokens" create="0">
+                <field name="token_prefix"/>
+                <field name="client_id"/>
+                <field name="user_id"/>
+                <field name="scope"/>
+                <field name="expires_at"/>
+                <field name="last_used_at"/>
+                <field name="revoked" widget="boolean"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- OAuth2 Access Token Action -->
+    <record id="action_oauth2_access_token" model="ir.actions.act_window">
+        <field name="name">Access Tokens</field>
+        <field name="res_model">oauth2.access_token</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('revoked', '=', False)]</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+    <!-- OAuth2 Authorization Code List View -->
+    <record id="view_oauth2_authorization_code_tree" model="ir.ui.view">
+        <field name="name">oauth2.authorization_code.list</field>
+        <field name="model">oauth2.authorization_code</field>
+        <field name="arch" type="xml">
+            <list string="Authorization Codes" create="0">
+                <field name="code"/>
+                <field name="client_id"/>
+                <field name="user_id"/>
+                <field name="expires_at"/>
+                <field name="used" widget="boolean"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- OAuth2 Authorization Code Action -->
+    <record id="action_oauth2_authorization_code" model="ir.actions.act_window">
+        <field name="name">Authorization Codes</field>
+        <field name="res_model">oauth2.authorization_code</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>
