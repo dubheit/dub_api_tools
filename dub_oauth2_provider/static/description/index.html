@@ -1,188 +1,299 @@
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <div class="oe_span12" style="text-align: center;">
-            <h2 class="oe_slogan" style="color: #28a745;">
-                <i class="fa fa-key"></i> OAuth2 Provider
-            </h2>
-            <p class="oe_mt32" style="font-size: 18px; color: #555;">
-                Turn your Odoo instance into an OAuth2 Authorization Server.<br/>
-                Authenticate external applications securely.
-            </p>
-            <p style="background-color: #e8f5e9; padding: 10px 20px; display: inline-block; color: #2e7d32;">
-                <i class="fa fa-life-ring"></i>
-                <strong>Free Support</strong> -
-                <a href="mailto:support@dubhe.it" style="color: #28a745;">support@dubhe.it</a>
-            </p>
-        </div>
+<!-- Dubhe OAuth2 Provider — apps.odoo.com description page -->
+<!-- Brand: dark navy (#0D1B2A) / teal (#3ECFB4 / #2BA88E) -->
+
+<style>
+  .dub-root { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: #2C3E50; line-height: 1.55; }
+  .dub-root h2, .dub-root h3, .dub-root h4 { font-family: inherit; letter-spacing: -0.01em; }
+  .dub-section { padding: 60px 32px; margin: 0; }
+  .dub-section-dark { background: linear-gradient(135deg, #0D1B2A 0%, #1B3A4B 100%); color: #FFFFFF; }
+  .dub-section-light { background: #FFFFFF; }
+  .dub-section-soft  { background: #F7F9FA; }
+  .dub-eyebrow { display: inline-block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #3ECFB4; font-weight: 700; margin-bottom: 14px; }
+  .dub-eyebrow-dark { color: #2BA88E; }
+  .dub-title { font-size: 40px; font-weight: 700; margin: 0 0 18px; line-height: 1.15; }
+  .dub-title-light { color: #FFFFFF; }
+  .dub-title-dark  { color: #0D1B2A; }
+  .dub-lead  { font-size: 18px; max-width: 720px; margin: 0 auto; }
+  .dub-lead-light { color: rgba(255,255,255,0.82); }
+  .dub-lead-dark  { color: #475569; }
+  .dub-center { text-align: center; }
+  .dub-grid { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 36px; }
+  .dub-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; flex: 1 1 280px; min-width: 260px; box-shadow: 0 1px 2px rgba(13,27,42,0.04); position: relative; overflow: hidden; }
+  .dub-card-dark { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: #FFFFFF; }
+  .dub-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #3ECFB4; }
+  .dub-card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(62,207,180,0.14); color: #2BA88E; display: inline-flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; }
+  .dub-card-dark .dub-card-icon { background: rgba(62,207,180,0.2); color: #3ECFB4; }
+  .dub-card h4 { font-size: 17px; font-weight: 700; margin: 0 0 8px; color: #0D1B2A; }
+  .dub-card-dark h4 { color: #FFFFFF; }
+  .dub-card p { font-size: 14px; margin: 0; color: #475569; }
+  .dub-card-dark p { color: rgba(255,255,255,0.72); }
+  .dub-pill { display: inline-block; font-size: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(62,207,180,0.12); color: #2BA88E; font-weight: 600; margin: 4px 4px 4px 0; }
+  .dub-pill-dark { background: rgba(62,207,180,0.2); color: #3ECFB4; }
+  .dub-cta { display: inline-block; padding: 12px 28px; background: #3ECFB4; color: #0D1B2A; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px; margin-top: 18px; }
+  .dub-cta-secondary { background: transparent; color: #FFFFFF; border: 2px solid rgba(255,255,255,0.3); }
+  .dub-table { width: 100%; border-collapse: collapse; margin-top: 24px; background: #FFFFFF; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 2px rgba(13,27,42,0.04); }
+  .dub-table th { background: #0D1B2A; color: #FFFFFF; text-align: left; padding: 14px 18px; font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; }
+  .dub-table td { padding: 12px 18px; border-top: 1px solid #E2E8F0; font-size: 14px; color: #2C3E50; vertical-align: top; }
+  .dub-table tr:nth-child(even) td { background: #F7F9FA; }
+  .dub-table code { background: rgba(62,207,180,0.12); color: #1E8A7A; padding: 2px 8px; border-radius: 6px; font-size: 13px; }
+  .dub-code { background: #0D1B2A; color: #D0F5EC; border-radius: 12px; padding: 20px 22px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.55; white-space: pre; overflow-x: auto; margin: 24px 0 0; }
+  .dub-split { display: flex; flex-wrap: wrap; gap: 48px; align-items: center; }
+  .dub-split > div { flex: 1 1 360px; }
+  .dub-svg-wrap { background: #F7F9FA; border-radius: 16px; padding: 28px; border: 1px solid #E2E8F0; }
+  .dub-accent-line { width: 60px; height: 4px; background: #3ECFB4; border-radius: 2px; margin: 0 auto 24px; }
+  .dub-footer { background: #0D1B2A; color: rgba(255,255,255,0.7); text-align: center; padding: 40px 32px; }
+  .dub-footer a { color: #3ECFB4; text-decoration: none; font-weight: 600; }
+  .dub-badge { display: inline-block; padding: 6px 14px; background: rgba(62,207,180,0.18); color: #3ECFB4; border-radius: 999px; font-size: 13px; font-weight: 600; margin-bottom: 22px; letter-spacing: 0.03em; }
+  .dub-step { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 22px; }
+  .dub-step-num { flex: 0 0 36px; height: 36px; border-radius: 50%; background: #3ECFB4; color: #0D1B2A; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+  .dub-step h4 { margin: 0 0 4px; color: #0D1B2A; font-size: 16px; }
+  .dub-step p { margin: 0; color: #475569; font-size: 14px; }
+</style>
+
+<div class="dub-root">
+
+  <!-- ─────────────────────────────────── Hero ─────────────────────────────── -->
+  <section class="dub-section dub-section-dark dub-center">
+    <span class="dub-badge">OAuth 2.0 &amp; OpenID Connect</span>
+    <h2 class="dub-title dub-title-light">OAuth2 Provider for Odoo</h2>
+    <p class="dub-lead dub-lead-light">
+      Turn your Odoo into a full OAuth 2.0 and OpenID Connect authorization
+      server. Safely connect AI assistants, mobile apps, SPAs and backend
+      services without ever exposing user passwords.
+    </p>
+    <div style="margin-top: 28px;">
+      <a href="mailto:support@dubhe.it" class="dub-cta">Contact Dubhe</a>
+      <a href="https://dubhe.it" class="dub-cta dub-cta-secondary">Visit dubhe.it</a>
     </div>
-</section>
+  </section>
 
-<section class="oe_container oe_dark">
-    <div class="oe_row oe_spaced">
-        <h3 class="oe_slogan">Key Features</h3>
-
-        <div class="oe_span6">
-            <p><i class="fa fa-check-circle" style="color: #28a745;"></i>
-            <strong>Authorization Code Flow</strong><br/>
-            Full OAuth2 Authorization Code grant type for server-side applications.</p>
-
-            <p><i class="fa fa-shield" style="color: #28a745;"></i>
-            <strong>PKCE Support (S256)</strong><br/>
-            Proof Key for Code Exchange for mobile apps and SPAs.</p>
-
-            <p><i class="fa fa-server" style="color: #28a745;"></i>
-            <strong>Client Credentials Flow</strong><br/>
-            Machine-to-machine authentication without user interaction.</p>
+  <!-- ───────────────────────────── Overview split ─────────────────────────── -->
+  <section class="dub-section dub-section-light">
+    <div class="dub-split" style="max-width: 1100px; margin: 0 auto;">
+      <div>
+        <span class="dub-eyebrow dub-eyebrow-dark">Why this module</span>
+        <h3 class="dub-title dub-title-dark" style="font-size: 30px;">A standards-first authorization server inside Odoo</h3>
+        <p class="dub-lead dub-lead-dark" style="margin: 0 0 16px;">
+          Odoo ships with an OAuth <em>client</em>, but no way to act as a
+          <strong>server</strong>. This module fills that gap with a modern,
+          audit-friendly, production-ready implementation.
+        </p>
+        <p class="dub-lead dub-lead-dark" style="margin: 0;">
+          It is the authentication backbone of the Dubhe MCP Server module,
+          but it stands on its own and can protect any custom controller,
+          REST endpoint or FastAPI route.
+        </p>
+        <div style="margin-top: 22px;">
+          <span class="dub-pill">RFC 6749</span>
+          <span class="dub-pill">RFC 7636 (PKCE)</span>
+          <span class="dub-pill">RFC 7009</span>
+          <span class="dub-pill">RFC 7591</span>
+          <span class="dub-pill">RFC 8414</span>
+          <span class="dub-pill">RFC 9728</span>
+          <span class="dub-pill">OIDC Core 1.0</span>
         </div>
-
-        <div class="oe_span6">
-            <p><i class="fa fa-user-circle" style="color: #28a745;"></i>
-            <strong>Personal Credentials</strong><br/>
-            Users can create OAuth2 credentials from Preferences.</p>
-
-            <p><i class="fa fa-refresh" style="color: #28a745;"></i>
-            <strong>Refresh Token Rotation</strong><br/>
-            Automatic token refresh with configurable expiration.</p>
-
-            <p><i class="fa fa-clock-o" style="color: #28a745;"></i>
-            <strong>Configurable Expiration</strong><br/>
-            Set access and refresh token lifetimes per client.</p>
-        </div>
+      </div>
+      <div class="dub-svg-wrap">
+        <!-- Diagram: client → authorize → token → resource -->
+        <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#2BA88E"/>
+            </marker>
+          </defs>
+          <!-- Client -->
+          <rect x="10" y="90" width="100" height="60" rx="10" fill="#0D1B2A"/>
+          <text x="60" y="118" fill="#3ECFB4" font-family="Arial" font-size="13" font-weight="700" text-anchor="middle">Client App</text>
+          <text x="60" y="136" fill="rgba(255,255,255,0.7)" font-family="Arial" font-size="11" text-anchor="middle">Claude · SPA · API</text>
+          <!-- Odoo central -->
+          <rect x="150" y="30" width="230" height="180" rx="12" fill="#F7F9FA" stroke="#E2E8F0"/>
+          <text x="265" y="50" fill="#0D1B2A" font-family="Arial" font-size="11" font-weight="700" text-anchor="middle">ODOO + dub_oauth2_provider</text>
+          <!-- /authorize -->
+          <rect x="170" y="64" width="90" height="40" rx="8" fill="#3ECFB4"/>
+          <text x="215" y="82" fill="#0D1B2A" font-family="Arial" font-size="11" font-weight="700" text-anchor="middle">/authorize</text>
+          <text x="215" y="96" fill="#0D1B2A" font-family="Arial" font-size="9" text-anchor="middle">consent</text>
+          <!-- /token -->
+          <rect x="275" y="64" width="90" height="40" rx="8" fill="#2BA88E"/>
+          <text x="320" y="82" fill="#FFFFFF" font-family="Arial" font-size="11" font-weight="700" text-anchor="middle">/token</text>
+          <text x="320" y="96" fill="#FFFFFF" font-family="Arial" font-size="9" text-anchor="middle">access + refresh</text>
+          <!-- /userinfo -->
+          <rect x="170" y="120" width="90" height="40" rx="8" fill="#1E8A7A"/>
+          <text x="215" y="138" fill="#FFFFFF" font-family="Arial" font-size="11" font-weight="700" text-anchor="middle">/userinfo</text>
+          <text x="215" y="152" fill="#FFFFFF" font-family="Arial" font-size="9" text-anchor="middle">OIDC claims</text>
+          <!-- /revoke -->
+          <rect x="275" y="120" width="90" height="40" rx="8" fill="#0F4C5C"/>
+          <text x="320" y="138" fill="#FFFFFF" font-family="Arial" font-size="11" font-weight="700" text-anchor="middle">/revoke</text>
+          <text x="320" y="152" fill="#FFFFFF" font-family="Arial" font-size="9" text-anchor="middle">RFC 7009</text>
+          <!-- well-known -->
+          <rect x="170" y="176" width="195" height="26" rx="6" fill="rgba(62,207,180,0.15)"/>
+          <text x="267" y="193" fill="#1E8A7A" font-family="Arial" font-size="11" font-weight="600" text-anchor="middle">/.well-known/* (discovery)</text>
+          <!-- Arrows -->
+          <line x1="110" y1="120" x2="150" y2="120" stroke="#2BA88E" stroke-width="2" marker-end="url(#arrow)"/>
+        </svg>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <h3 class="oe_slogan">OAuth2 Endpoints</h3>
-
-        <div class="oe_span12">
-            <table class="table table-bordered">
-                <tr style="background-color: #28a745; color: #fff;">
-                    <th style="padding: 10px;">Endpoint</th>
-                    <th style="padding: 10px;">Description</th>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><code>/oauth2/authorize</code></td>
-                    <td style="padding: 10px;">Authorization endpoint - redirects user to login and consent</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><code>/oauth2/token</code></td>
-                    <td style="padding: 10px;">Token endpoint - exchange code for access token</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><code>/oauth2/userinfo</code></td>
-                    <td style="padding: 10px;">UserInfo endpoint - get authenticated user information</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><code>/oauth2/revoke</code></td>
-                    <td style="padding: 10px;">Token revocation endpoint</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><code>/.well-known/oauth-authorization-server</code></td>
-                    <td style="padding: 10px;">Server metadata (RFC 8414)</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><code>/.well-known/openid-configuration</code></td>
-                    <td style="padding: 10px;">OpenID Connect discovery</td>
-                </tr>
-            </table>
-        </div>
+  <!-- ────────────────────────────── Key features ──────────────────────────── -->
+  <section class="dub-section dub-section-soft">
+    <div style="max-width: 1100px; margin: 0 auto;" class="dub-center">
+      <span class="dub-eyebrow dub-eyebrow-dark">What's inside</span>
+      <h3 class="dub-title dub-title-dark" style="font-size: 30px;">Everything you need, nothing you don't</h3>
+      <div class="dub-accent-line"></div>
     </div>
-</section>
-
-<section class="oe_container oe_dark">
-    <div class="oe_row oe_spaced">
-        <h3 class="oe_slogan">Supported Scopes</h3>
-
-        <div class="oe_span4" style="text-align: center;">
-            <p style="font-size: 40px; color: #28a745;"><i class="fa fa-id-card"></i></p>
-            <h4>openid</h4>
-            <p style="color: #666;">Verify user identity</p>
-        </div>
-
-        <div class="oe_span4" style="text-align: center;">
-            <p style="font-size: 40px; color: #17a2b8;"><i class="fa fa-user"></i></p>
-            <h4>profile</h4>
-            <p style="color: #666;">Access user profile (name, username)</p>
-        </div>
-
-        <div class="oe_span4" style="text-align: center;">
-            <p style="font-size: 40px; color: #6c757d;"><i class="fa fa-envelope"></i></p>
-            <h4>email</h4>
-            <p style="color: #666;">Access user email address</p>
-        </div>
+    <div class="dub-grid" style="max-width: 1100px; margin: 0 auto;">
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-key"></i></div>
+        <h4>Authorization Code + PKCE</h4>
+        <p>Safe for mobile, SPA and desktop clients. Challenge is enforced for public clients.</p>
+      </div>
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-cogs"></i></div>
+        <h4>Client Credentials</h4>
+        <p>Machine-to-machine authentication for services and background jobs.</p>
+      </div>
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-refresh"></i></div>
+        <h4>Refresh Token Rotation</h4>
+        <p>Long-lived sessions with minimal replay risk. Rotation is automatic.</p>
+      </div>
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-id-card-o"></i></div>
+        <h4>OpenID Connect</h4>
+        <p>Full <code>/userinfo</code> with openid, profile and email claims.</p>
+      </div>
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-search"></i></div>
+        <h4>Discovery Endpoints</h4>
+        <p>OAuth and OIDC metadata plus protected-resource discovery (RFC 9728).</p>
+      </div>
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-user-plus"></i></div>
+        <h4>Dynamic Client Registration</h4>
+        <p>RFC 7591 with trusted-domain whitelist. Let AI agents auto-register safely.</p>
+      </div>
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-user-circle-o"></i></div>
+        <h4>Personal Tokens</h4>
+        <p>Every user can self-serve OAuth2 credentials from their preferences.</p>
+      </div>
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-ban"></i></div>
+        <h4>Token Revocation</h4>
+        <p>RFC 7009 compliant <code>/revoke</code> endpoint and admin revoke UI.</p>
+      </div>
+      <div class="dub-card">
+        <div class="dub-card-icon"><i class="fa fa-sliders"></i></div>
+        <h4>Per-client Configuration</h4>
+        <p>Allowed grants, scopes, redirect URIs and token TTL per OAuth2 client.</p>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <h3 class="oe_slogan">Quick Setup</h3>
-
-        <div class="oe_span12">
-            <p><strong style="color: #28a745;">1.</strong>
-            Go to <strong>Settings &gt; Technical &gt; OAuth2 Provider &gt; Clients</strong></p>
-
-            <p><strong style="color: #28a745;">2.</strong>
-            Create a new OAuth2 Client with a name and redirect URI</p>
-
-            <p><strong style="color: #28a745;">3.</strong>
-            Copy the <strong>Client ID</strong> and <strong>Client Secret</strong></p>
-
-            <p><strong style="color: #28a745;">4.</strong>
-            Configure your external application with these credentials</p>
-
-            <p><strong style="color: #28a745;">5.</strong>
-            Users can now authenticate via <code>/oauth2/authorize</code></p>
-        </div>
+  <!-- ───────────────────────────────── Flows ──────────────────────────────── -->
+  <section class="dub-section dub-section-dark">
+    <div style="max-width: 1100px; margin: 0 auto;" class="dub-center">
+      <span class="dub-eyebrow">Supported flows</span>
+      <h3 class="dub-title dub-title-light" style="font-size: 30px;">One module, three grant types</h3>
+      <p class="dub-lead dub-lead-light">Every common OAuth2 scenario covered out of the box.</p>
     </div>
-</section>
-
-<section class="oe_container" style="background-color: #fff3e0; padding: 20px;">
-    <div class="oe_row">
-        <div class="oe_span12" style="text-align: center;">
-            <h4 style="color: #e65100;">
-                <i class="fa fa-lightbulb-o"></i> Use Case: AI Assistant Integration
-            </h4>
-            <p style="color: #555;">
-                This module works with <strong>dub_mcp_server</strong> to enable AI assistants
-                (Claude, Cursor, Continue, etc.) to securely access your Odoo data.
-            </p>
-        </div>
+    <div class="dub-grid" style="max-width: 1100px; margin: 0 auto;">
+      <div class="dub-card dub-card-dark">
+        <div class="dub-card-icon"><i class="fa fa-user-secret"></i></div>
+        <h4>Authorization Code + PKCE</h4>
+        <p>The recommended flow for any user-facing application. PKCE is mandatory for public clients.</p>
+      </div>
+      <div class="dub-card dub-card-dark">
+        <div class="dub-card-icon"><i class="fa fa-server"></i></div>
+        <h4>Client Credentials</h4>
+        <p>No human involved. The token is bound to the OAuth2 client for service-to-service calls.</p>
+      </div>
+      <div class="dub-card dub-card-dark">
+        <div class="dub-card-icon"><i class="fa fa-repeat"></i></div>
+        <h4>Refresh Token</h4>
+        <p>Extend access without re-prompting the user. Rotation is supported and recommended.</p>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="oe_container oe_dark">
-    <div class="oe_row oe_spaced">
-        <h3 class="oe_slogan">Security Features</h3>
-
-        <div class="oe_span6">
-            <p><i class="fa fa-lock" style="color: #28a745;"></i> Hashed client secrets</p>
-            <p><i class="fa fa-shield" style="color: #28a745;"></i> PKCE S256 for public clients</p>
-            <p><i class="fa fa-random" style="color: #28a745;"></i> State parameter validation</p>
-            <p><i class="fa fa-bolt" style="color: #28a745;"></i> Timing-safe token validation</p>
-        </div>
-
-        <div class="oe_span6">
-            <p><i class="fa fa-refresh" style="color: #28a745;"></i> Atomic code exchange</p>
-            <p><i class="fa fa-trash" style="color: #28a745;"></i> Auto-cleanup of expired tokens</p>
-            <p><i class="fa fa-clock-o" style="color: #28a745;"></i> Configurable token expiration</p>
-            <p><i class="fa fa-ban" style="color: #28a745;"></i> Token revocation support</p>
-        </div>
+  <!-- ─────────────────────────────── Endpoints ────────────────────────────── -->
+  <section class="dub-section dub-section-light">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="dub-center">
+        <span class="dub-eyebrow dub-eyebrow-dark">API surface</span>
+        <h3 class="dub-title dub-title-dark" style="font-size: 30px;">Complete endpoint reference</h3>
+        <div class="dub-accent-line"></div>
+      </div>
+      <table class="dub-table">
+        <thead>
+          <tr><th>Path</th><th>Method</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>/oauth2/authorize</code></td><td>GET · POST</td><td>Authorization endpoint + consent page</td></tr>
+          <tr><td><code>/oauth2/token</code></td><td>POST</td><td>Token issuance (all grants)</td></tr>
+          <tr><td><code>/oauth2/userinfo</code></td><td>GET · POST</td><td>OpenID Connect userinfo</td></tr>
+          <tr><td><code>/oauth2/revoke</code></td><td>POST</td><td>Token revocation (RFC 7009)</td></tr>
+          <tr><td><code>/oauth2/register</code></td><td>POST</td><td>Dynamic Client Registration (RFC 7591)</td></tr>
+          <tr><td><code>/.well-known/oauth-authorization-server</code></td><td>GET</td><td>AS metadata (RFC 8414)</td></tr>
+          <tr><td><code>/.well-known/openid-configuration</code></td><td>GET</td><td>OIDC discovery document</td></tr>
+          <tr><td><code>/.well-known/oauth-protected-resource</code></td><td>GET</td><td>Protected resource metadata (RFC 9728)</td></tr>
+        </tbody>
+      </table>
     </div>
-</section>
+  </section>
 
-<section class="oe_container" style="background-color: #e8f5e9; padding: 30px 20px; margin-top: 20px;">
-    <div class="oe_row">
-        <div class="oe_span12" style="text-align: center;">
-            <h3 style="color: #2e7d32; margin-bottom: 15px;">Need Help?</h3>
-            <p style="font-size: 16px; margin: 0;">
-                <a href="mailto:support@dubhe.it" style="color: #28a745; font-weight: bold;">
-                    <i class="fa fa-envelope"></i> support@dubhe.it
-                </a>
-                <span style="color: #aaa; margin: 0 15px;">|</span>
-                <i class="fa fa-globe" style="color: #28a745;"></i>
-                <strong style="color: #28a745;">www.dubhe.it</strong>
-            </p>
+  <!-- ────────────────────────────── Security ──────────────────────────────── -->
+  <section class="dub-section dub-section-soft">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="dub-center">
+        <span class="dub-eyebrow dub-eyebrow-dark">Built for production</span>
+        <h3 class="dub-title dub-title-dark" style="font-size: 30px;">Security by default</h3>
+        <div class="dub-accent-line"></div>
+      </div>
+      <div class="dub-grid">
+        <div class="dub-card">
+          <div class="dub-card-icon"><i class="fa fa-lock"></i></div>
+          <h4>Hashed tokens at rest</h4>
+          <p>Access tokens, refresh tokens and authorization codes are hashed before being stored.</p>
         </div>
+        <div class="dub-card">
+          <div class="dub-card-icon"><i class="fa fa-shield"></i></div>
+          <h4>Hashed client secrets</h4>
+          <p>Secrets use PBKDF2 on creation. The plain value is shown only once.</p>
+        </div>
+        <div class="dub-card">
+          <div class="dub-card-icon"><i class="fa fa-hand-pointer-o"></i></div>
+          <h4>Explicit consent</h4>
+          <p>Every authorization code grant is approved by the user on a branded consent screen.</p>
+        </div>
+        <div class="dub-card">
+          <div class="dub-card-icon"><i class="fa fa-history"></i></div>
+          <h4>Auto-expiry &amp; cleanup</h4>
+          <p>Cron jobs clear expired tokens and codes. Retention is configurable per client.</p>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
+
+  <!-- ─────────────────────────────── CTA / footer ────────────────────────── -->
+  <section class="dub-section dub-section-dark dub-center">
+    <span class="dub-eyebrow">Ready to connect</span>
+    <h3 class="dub-title dub-title-light" style="font-size: 30px;">Turn Odoo into a true authorization server</h3>
+    <p class="dub-lead dub-lead-light">
+      Install the module, create a client, point your application at Odoo.
+      It really is that simple.
+    </p>
+    <div style="margin-top: 28px;">
+      <a href="mailto:support@dubhe.it" class="dub-cta">Email support@dubhe.it</a>
+    </div>
+  </section>
+
+  <section class="dub-footer">
+    <p style="margin: 0 0 6px;"><strong style="color:#FFFFFF;">Dubhe Srls</strong> &middot; Italy</p>
+    <p style="margin: 0;">
+      <a href="https://dubhe.it">dubhe.it</a> &middot;
+      <a href="mailto:support@dubhe.it">support@dubhe.it</a>
+    </p>
+  </section>
+
+</div>
