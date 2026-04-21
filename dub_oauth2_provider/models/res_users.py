@@ -1,5 +1,5 @@
 # Copyright 2025 Dubhe Srls
-# License OPL-1
+# License LGPL-3
 """
 Personal OAuth2 Clients for users.
 Allows users to create their own OAuth2 client credentials.
