@@ -16,7 +16,7 @@
         - Consent page for user authorization
         - Full client management interface
     """,
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.2.0",
     "category": "Tools",
     "author": "Dubhe Srls",
     "website": "https://dubhe.it",

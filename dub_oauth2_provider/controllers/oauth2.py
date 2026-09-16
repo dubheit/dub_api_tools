@@ -255,7 +255,7 @@ class OAuth2Controller(http.Controller):
 
     @http.route(
         "/oauth2/token", type="http", auth="none",
-        methods=["POST", "OPTIONS"], csrf=False
+        methods=["POST", "OPTIONS"], csrf=False, readonly=False
     )
     def token(self, **kwargs):
         """
@@ -604,7 +604,7 @@ class OAuth2Controller(http.Controller):
 
     @http.route(
         "/oauth2/revoke", type="http", auth="none",
-        methods=["POST", "OPTIONS"], csrf=False
+        methods=["POST", "OPTIONS"], csrf=False, readonly=False
     )
     def revoke(self, **kwargs):
         """
@@ -764,7 +764,7 @@ class OAuth2Controller(http.Controller):
 
     @http.route(
         "/oauth2/register", type="http", auth="none",
-        methods=["POST"], csrf=False
+        methods=["POST"], csrf=False, readonly=False
     )
     def register_client(self, **kwargs):
         """
