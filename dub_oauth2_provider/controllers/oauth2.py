@@ -16,6 +16,24 @@ _logger = logging.getLogger(__name__)
 class OAuth2Controller(http.Controller):
     """OAuth2 Authorization Server endpoints"""
 
+    # Browser-based clients (SPA, Flutter web) call the token, userinfo and
+    # revoke endpoints with XHR from their own origin. Without CORS headers
+    # the browser sends the request, the server happily answers, and then the
+    # response is withheld from the caller: the authorization code is burned
+    # and the app sees a network failure it cannot explain. A provider that
+    # offers Authorization Code + PKCE has to be reachable from a browser.
+    #
+    # Allowing any origin is the norm for these endpoints: none of them rely
+    # on ambient cookie authority. The token endpoint is protected by the
+    # one-time code plus the PKCE verifier, userinfo and revoke by the bearer
+    # token. Credentials are deliberately NOT allowed.
+    _CORS_HEADERS = [
+        ("Access-Control-Allow-Origin", "*"),
+        ("Access-Control-Allow-Methods", "GET, POST, OPTIONS"),
+        ("Access-Control-Allow-Headers", "Authorization, Content-Type"),
+        ("Access-Control-Max-Age", "86400"),
+    ]
+
     def _json_response(self, data, status=200, headers=None):
         """Return a JSON response with proper headers"""
         response_headers = [
@@ -23,6 +41,7 @@ class OAuth2Controller(http.Controller):
             ("Cache-Control", "no-store"),
             ("Pragma", "no-cache"),
         ]
+        response_headers.extend(self._CORS_HEADERS)
         if headers:
             response_headers.extend(headers)
         return Response(
@@ -30,6 +49,11 @@ class OAuth2Controller(http.Controller):
             status=status,
             headers=response_headers,
         )
+
+    def _cors_preflight(self):
+        """Answer the OPTIONS preflight the browser sends before any request
+        carrying an Authorization or JSON content-type header."""
+        return Response(status=204, headers=list(self._CORS_HEADERS))
 
     def _error_response(self, error, description=None, uri=None, status=400):
         """Return an OAuth2 error response"""
@@ -231,7 +255,7 @@ class OAuth2Controller(http.Controller):
 
     @http.route(
         "/oauth2/token", type="http", auth="none",
-        methods=["POST"], csrf=False
+        methods=["POST", "OPTIONS"], csrf=False
     )
     def token(self, **kwargs):
         """
@@ -240,6 +264,9 @@ class OAuth2Controller(http.Controller):
         Exchanges authorization code for access token,
         or refreshes an existing token.
         """
+        if request.httprequest.method == "OPTIONS":
+            return self._cors_preflight()
+
         grant_type = kwargs.get("grant_type")
 
         if grant_type == "authorization_code":
@@ -518,7 +545,7 @@ class OAuth2Controller(http.Controller):
 
     @http.route(
         "/oauth2/userinfo", type="http", auth="none",
-        methods=["GET", "POST"], csrf=False
+        methods=["GET", "POST", "OPTIONS"], csrf=False
     )
     def userinfo(self, **kwargs):
         """
@@ -527,6 +554,9 @@ class OAuth2Controller(http.Controller):
         Returns information about the authenticated user.
         Requires Bearer token authentication.
         """
+        if request.httprequest.method == "OPTIONS":
+            return self._cors_preflight()
+
         # Get token from Authorization header
         auth_header = request.httprequest.headers.get("Authorization", "")
         if not auth_header.startswith("Bearer "):
@@ -574,7 +604,7 @@ class OAuth2Controller(http.Controller):
 
     @http.route(
         "/oauth2/revoke", type="http", auth="none",
-        methods=["POST"], csrf=False
+        methods=["POST", "OPTIONS"], csrf=False
     )
     def revoke(self, **kwargs):
         """
@@ -582,6 +612,9 @@ class OAuth2Controller(http.Controller):
 
         Revokes an access token or refresh token.
         """
+        if request.httprequest.method == "OPTIONS":
+            return self._cors_preflight()
+
         token_string = kwargs.get("token")
         token_type_hint = kwargs.get("token_type_hint")
         client_id = kwargs.get("client_id")
@@ -739,17 +772,15 @@ class OAuth2Controller(http.Controller):
 
         Allows clients to register themselves dynamically.
         """
-        try:
-            ICP = request.env["ir.config_parameter"].sudo()
-            if not ICP.get_param(
-                "oauth2.allow_dynamic_registration", "False"
-            ) == "True":
-                return self._error_response(
-                    "invalid_request",
-                    "Dynamic client registration is disabled.",
-                    status=403,
-                )
+        ICP = request.env["ir.config_parameter"].sudo()
+        if not ICP.get_param("oauth2.allow_dynamic_registration", "False") == "True":
+            return self._error_response(
+                "invalid_request",
+                "Dynamic client registration is disabled.",
+                status=403,
+            )
 
+        try:
             # Parse JSON body
             body = request.httprequest.get_data(as_text=True)
             if body:
