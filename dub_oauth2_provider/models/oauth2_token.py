@@ -2,10 +2,13 @@
 # License LGPL-3
 
 import hmac
+import logging
 import secrets
 from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class OAuth2AuthorizationCode(models.Model):
@@ -197,9 +200,15 @@ class OAuth2AccessToken(models.Model):
         """Update last used timestamp using new cursor to handle read-only contexts."""
         self.ensure_one()
         try:
-            # Use direct SQL with new cursor to avoid read-only transaction issues
-            import odoo
-            with odoo.registry(self.env.cr.dbname).cursor() as cr:
+            # A separate cursor, so the write survives a read-only transaction
+            # and is not rolled back with the request.
+            #
+            # env.registry and not odoo.registry: the latter was removed in
+            # Odoo 19, so this raised AttributeError on every call and the bare
+            # except below swallowed it. The effect was silent and total --
+            # last_used_at stayed NULL forever, and with it any chance of
+            # telling a live client from an abandoned one.
+            with self.env.registry.cursor() as cr:
                 now = fields.Datetime.now()
                 if ip_address:
                     cr.execute(
@@ -214,8 +223,11 @@ class OAuth2AccessToken(models.Model):
                         (now, self.id)
                     )
         except Exception:
-            # Silently ignore errors
-            pass
+            # Never fail the caller's request over a usage timestamp, but say
+            # so: the previous silent pass is what hid the bug above.
+            _logger.warning(
+                "Could not update last_used_at for token %s", self.id, exc_info=True
+            )
 
     @api.model
     def cleanup_expired(self):
