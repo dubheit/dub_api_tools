@@ -4,10 +4,14 @@
 import base64
 import hashlib
 import hmac
+import logging
 import secrets
+from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class OAuth2Client(models.Model):
@@ -88,6 +92,15 @@ class OAuth2Client(models.Model):
     )
     access_token_ids = fields.One2many(
         "oauth2.access_token", "client_id", string="Access Tokens"
+    )
+
+    dynamically_registered = fields.Boolean(
+        string="Dynamically Registered",
+        default=False,
+        readonly=True,
+        help="Created through RFC 7591 dynamic client registration rather than "
+             "by hand. Only these are eligible for automatic cleanup: a client "
+             "someone typed in is never removed by a cron.",
     )
 
     description = fields.Text(string="Description")
@@ -232,6 +245,59 @@ class OAuth2Client(models.Model):
                 "type": "success",
             }
         }
+
+
+    @api.model
+    def cleanup_stale_clients(self):
+        """Deactivate dynamically registered clients that nobody uses any more.
+
+        Only clients created by dynamic registration are considered: one that
+        someone configured by hand stays, however long it sits idle, because
+        its absence of traffic says nothing about whether it is still wanted.
+
+        A client survives if it was created recently, if any of its tokens was
+        used recently, or if it still holds a token that has not expired. What
+        is left has no token, no recorded use, and was registered more than
+        `oauth2.stale_client_days` ago.
+
+        It deactivates rather than deletes: active=False is reversible, and the
+        first runs of this cron are exactly when a wrong guess costs the most.
+        """
+        days = int(
+            self.env["ir.config_parameter"].sudo().get_param(
+                "oauth2.stale_client_days", 90
+            )
+        )
+        if days <= 0:
+            return 0
+        cutoff = fields.Datetime.now() - timedelta(days=days)
+
+        candidates = self.search([
+            ("dynamically_registered", "=", True),
+            ("active", "=", True),
+            ("create_date", "<", cutoff),
+        ])
+        if not candidates:
+            return 0
+
+        Token = self.env["oauth2.access_token"].sudo()
+        now = fields.Datetime.now()
+        keep = Token.search([
+            ("client_id", "in", candidates.ids),
+            "|",
+            ("last_used_at", ">=", cutoff),
+            "&", ("revoked", "=", False), ("expires_at", ">", now),
+        ]).mapped("client_id")
+
+        stale = candidates - keep
+        if stale:
+            stale.write({"active": False})
+            _logger.info(
+                "Deactivated %s dynamically registered OAuth2 client(s) unused "
+                "for more than %s days: %s",
+                len(stale), days, ", ".join(stale.mapped("name")),
+            )
+        return len(stale)
 
 
 class OAuth2ShowSecretWizard(models.TransientModel):

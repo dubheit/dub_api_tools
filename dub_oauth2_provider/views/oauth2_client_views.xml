@@ -40,6 +40,7 @@
                         </group>
                         <group string="Settings">
                             <field name="require_pkce"/>
+                            <field name="dynamically_registered" readonly="1"/>
                             <field name="allowed_scopes"/>
                             <field name="access_token_expiry"/>
                             <field name="refresh_token_expiry"/>
