@@ -829,6 +829,11 @@ class OAuth2Controller(http.Controller):
             "client_type": client_type,
             "require_pkce": True,  # Always require PKCE for dynamic clients
             "allowed_scopes": "openid profile email",
+            # Marks it as disposable: a client that registered itself can be
+            # pruned once unused, while one someone configured by hand cannot.
+            # Without this flag the two are indistinguishable, and clients
+            # accumulate forever.
+            "dynamically_registered": True,
         })
 
         # Build response
