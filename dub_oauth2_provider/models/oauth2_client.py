@@ -105,9 +105,10 @@ class OAuth2Client(models.Model):
 
     description = fields.Text(string="Description")
 
-    _sql_constraints = [
-        ("client_id_unique", "UNIQUE(client_id)", "Client ID must be unique"),
-    ]
+    # Odoo 19 ignora _sql_constraints: il vincolo non veniva creato.
+    _client_id_unique = models.Constraint(
+        "UNIQUE(client_id)", "Client ID must be unique"
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
