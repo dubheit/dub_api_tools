@@ -16,7 +16,7 @@
         - Consent page for user authorization
         - Full client management interface
     """,
-    "version": "18.0.1.2.0",
+    "version": "18.0.1.3.0",
     "category": "Tools",
     "author": "Dubhe Srls",
     "website": "https://dubhe.it",
@@ -29,6 +29,7 @@
         "views/oauth2_client_views.xml",
         "views/oauth2_personal_token_views.xml",
         "views/oauth2_menus.xml",
+        "views/oauth2_templates.xml",
         "data/oauth2_defaults.xml",
     ],
     "images": ["static/description/banner.png"],

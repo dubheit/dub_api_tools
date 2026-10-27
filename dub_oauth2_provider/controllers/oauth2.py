@@ -82,7 +82,7 @@ class OAuth2Controller(http.Controller):
 
     @http.route(
         "/oauth2/authorize", type="http", auth="user",
-        methods=["GET", "POST"], csrf=False
+        methods=["GET", "POST"], csrf=True
     )
     def authorize(self, **kwargs):
         """
@@ -200,9 +200,11 @@ class OAuth2Controller(http.Controller):
 
         # Check if this is a consent POST or initial GET
         if request.httprequest.method == "POST":
-            # Note: CSRF protection is provided by OAuth2 'state' parameter
-            # which the client must validate. Traditional CSRF tokens don't
-            # work reliably in OAuth2 flows due to cross-origin cookies.
+            # Il consenso e' un POST dalla pagina che Odoo stesso ha appena
+            # servito, quindi il token CSRF standard (csrf=True sulla route)
+            # funziona. `state` protegge il client, non l'utente: senza CSRF
+            # qualunque sito poteva far approvare a un utente loggato un client
+            # scelto dall'attaccante.
 
             # User has consented, create authorization code
             consent = kwargs.get("consent")
