@@ -1,9 +1,9 @@
 def migrate(cr, version):
-    """Le pagine di consenso e di successo erano nel file noupdate: all'upgrade
-    Odoo salta i record con noupdate sull'XMLID anche se ora arrivano da un file
-    normale, e il modulo di consenso resterebbe senza token CSRF mentre il
-    controller lo pretende. Si toglie il flag prima che le viste vengano
-    ricaricate."""
+    """The consent and success pages used to be in the noupdate data file.
+    On upgrade Odoo skips records whose XMLID is flagged noupdate, even when
+    they now come from a regular file. The consent form would then stay
+    without a CSRF token while the controller requires one. The flag is
+    cleared before the views are reloaded."""
     cr.execute(
         """
         UPDATE ir_model_data

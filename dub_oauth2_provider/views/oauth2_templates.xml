@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Fuori dal file noupdate: le pagine sono codice, non dati configurabili, e
-     devono seguire il controller a ogni upgrade (ad esempio il token CSRF del
-     modulo di consenso). Gli id XML sono quelli di prima; sui database gia'
-     installati il flag noupdate lo toglie migrations/19.0.1.3.0. -->
+<!-- Kept outside the noupdate file. These pages are code and must follow the
+     controller on every upgrade (for example the CSRF token of the consent
+     form). The XML ids are unchanged. On databases already installed,
+     migrations/19.0.1.3.0 clears the noupdate flag. -->
 <odoo>
     <!-- Consent Page Template -->
     <record id="consent_page" model="ir.ui.view">
